@@ -1,7 +1,7 @@
-from UPISAS.example_strategy import ExampleStrategy
+# from UPISAS.example_strategy import ExampleStrategy
 from UPISAS.exemplar import Exemplar
-from UPISAS.exemplars.swim import SWIM
-from UPISAS.exemplars.your_exemplar import YourExemplar
+# from UPISAS.exemplars.swim import SWIM
+from UPISAS.exemplars.Dingnet import Dingnet_Exemplar
 
 
 import signal
@@ -19,9 +19,9 @@ if __name__ == '__main__':
     # exemplar = SWIM(auto_start=True)
     # exemplar.start_run()
 
-    args = ["basic_graph.xml", "No Adaptation", "ReliableEfficient", "5"]
-    exemplar = YourExemplar(auto_start=True, args = args)
-    exemplar.start_run()
+    ding_args = ["basic_graph.xml", "Signal-based", "ReliableEfficient", "5"]
+    exemplar = Dingnet_Exemplar(auto_start=True)
+    exemplar.start_run(ding_args)
     # try:
     #     strategy = ExampleStrategy(exemplar)
 
