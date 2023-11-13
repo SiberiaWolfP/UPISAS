@@ -19,7 +19,7 @@ if __name__ == '__main__':
     # exemplar = SWIM(auto_start=True)
     # exemplar.start_run()
 
-    ding_args = ["basic_graph.xml", "Signal-based", "ReliableEfficient", "5"]
+    ding_args = ["basic_graph.xml", "Signal-based", "ReliableEfficient", "1"]
     exemplar = Dingnet_Exemplar(auto_start=True)
     exemplar.start_run(ding_args)
     # try:

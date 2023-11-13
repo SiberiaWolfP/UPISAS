@@ -38,7 +38,12 @@ class Exemplar(ABC):
                 else:
                     logging.error(f"image '{image_name}' not found on DockerHub, exiting!")
                     raise DockerImageNotFoundOnDockerHub
-            docker_kwargs["detach"] = True
+            docker_kwargs["detach"] = False
+            try:
+                container = docker_client.containers.get(docker_kwargs["name"])
+                container.remove()
+            except DockerException as e:
+                logging.info(e)
             self.exemplar_container = docker_client.containers.create(**docker_kwargs)
         except DockerException as e:
             logging.error("A DockerException occurred, are you sure the Docker deamon is running?")

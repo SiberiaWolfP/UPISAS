@@ -19,5 +19,5 @@ class Dingnet_Exemplar(Exemplar):
     def start_run(self, args):
         # args = ["basic_graph.xml", "Signal-based", "ReliableEfficient", "5"]
         args_str = ' '.join(args)
-        cmd = f'sh -c "java -jar /app.jar --server.port=8080 {args_str}"'
+        cmd = f'sh -c "java -jar /app.jar {args_str}"'
         self.exemplar_container.exec_run(cmd= cmd, detach=True)
