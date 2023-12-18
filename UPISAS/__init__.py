@@ -5,7 +5,7 @@ import logging
 from UPISAS.exceptions import ServerNotReachable, IncompleteJSONSchema
 
 pull_image_tasks = {}
-
+s = requests.Session()
 
 def show_progress(line, progress):
     """ Show task progress (red for download, green for extract). Used when pulling images."""
@@ -24,8 +24,8 @@ def show_progress(line, progress):
 
 def get_response_for_get_request(url):
     try:
-        logging.info("GET request to " + str(url))
-        response = requests.get(url)
+        # logging.info("GET request to " + str(url))
+        response = s.get(url)
         return response
     except requests.exceptions.ConnectionError as e:
         logging.error(e)
