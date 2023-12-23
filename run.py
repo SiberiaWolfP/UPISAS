@@ -1,34 +1,38 @@
-# from UPISAS.example_strategy import ExampleStrategy
-from UPISAS.exemplar import Exemplar
-# from UPISAS.exemplars.swim import SWIM
 from UPISAS.exemplars.Dingnet import Dingnet_Exemplar
 from UPISAS.strategies.dingnet_strategy import DingNetStrategy
 
 
 import signal
 import sys
+import argparse
 
+def init_argparse():
+    parser = argparse.ArgumentParser(
+        usage="%(prog)s [OPTION] [arg...]",
+        description="Run the DingNet exemplar in a docker container and control it with a self-adaptive strategy",
+    )
+    parser.add_argument("--debug", help="Run in debug mode", action="store_false")
+    parser.add_argument("--config", help="Configuration file name", default="world_1_6g1m.xml")
+    parser.add_argument("--speed", help="Simulation speed", default=5)
+    parser.add_argument("--algorithm", help="Algorithm to use, select from [DQN_discrete, Signal_based]", default="DQN_discrete")
+    parser.add_argument("--mode", help="Mode to use, select from [learning, normal]", default="learning")
+    return parser
 
 def signal_handler(sig, frame):
     print('You pressed Ctrl+C!')
-    exemplar.stop()
     sys.exit(0)
 
 signal.signal(signal.SIGINT, signal_handler)
 if __name__ == '__main__':
-    
-    # exemplar = SWIM(auto_start=True)
-    # exemplar.start_run()
+    parser = init_argparse()
+    args = parser.parse_args()
 
-    # ding_args = ["basic_graph.xml", "Signal-based", "ReliableEfficient", "1"]
-    exemplar = Dingnet_Exemplar(auto_start=True, debug=True)
+    exemplar = Dingnet_Exemplar(auto_start=True, debug=args.debug)
     exemplar.start_run([])
-    exemplar.init_world(config_name="test_2_5gateways_1mote.xml", speed=5)
+    exemplar.init_world(config_name=args.config, speed=args.speed)
     exemplar.start_simulation()
     try:
-        strategy = DingNetStrategy(exemplar, mode="normal", algorithm="DQN_discrete")
-        # strategy = DingNetStrategy(exemplar, mode="learning", algorithm="DQN_discrete")
-        # strategy = DingNetStrategy(exemplar, mode="normal", algorithm="Signal_based")
+        strategy = DingNetStrategy(exemplar, mode=args.mode, algorithm=args.algorithm)
 
         while True:
             strategy.monitor()
@@ -36,5 +40,4 @@ if __name__ == '__main__':
                 if strategy.plan():
                     strategy.execute(strategy.knowledge.plan_data)
     except:
-        exemplar.stop()
         sys.exit(0)

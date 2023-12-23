@@ -1,5 +1,4 @@
 from UPISAS.strategy import Strategy
-from gymnasium import spaces
 import numpy as np
 from UPISAS.strategies.DQN import DQN
 from UPISAS.strategies.SignalBased import SignalBased
@@ -27,6 +26,11 @@ class DingNetStrategy(Strategy):
         if 'status' in self.knowledge.monitored_data:
             if self.knowledge.monitored_data['status'] != "RUNNING":
                 self.knowledge.analysis_data['operation'] = "restart"
+                self.episode_reward = 0
+                self.episode = 0
+                self.adaptation_step = 0
+                if self.progress_bar is not None:
+                    self.progress_bar.close()
                 return True
         if self.mode == "learning":
             # waiting until mote's state changed
