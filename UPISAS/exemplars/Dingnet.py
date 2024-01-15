@@ -27,9 +27,8 @@ class Dingnet_Exemplar(Exemplar):
     def start_run(self, args):
         if self.debug:
             return
-        # args = ["basic_graph.xml", "Signal-based", "ReliableEfficient", "5"]
         args_str = ' '.join(args)
-        cmd = f'sh -c "java -jar /app.jar {args_str}"'
+        cmd = f'sh -c "java -jar /app.jar"'
         self.exemplar_container.exec_run(cmd= cmd, detach=True)
 
     def init_world(self, config_name="mock.xml", speed=5):

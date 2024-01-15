@@ -1,3 +1,4 @@
+from time import sleep
 from UPISAS.exemplars.Dingnet import Dingnet_Exemplar
 from UPISAS.strategies.dingnet_strategy import DingNetStrategy
 
@@ -11,7 +12,7 @@ def init_argparse():
         usage="%(prog)s [OPTION] [arg...]",
         description="Run the DingNet exemplar in a docker container and control it with a self-adaptive strategy",
     )
-    parser.add_argument("--debug", help="Run in debug mode", action="store_false")
+    parser.add_argument("--debug", help="Run in debug mode", default=False)
     parser.add_argument("--config", help="Configuration file name", default="world_1_6g1m.xml")
     parser.add_argument("--speed", help="Simulation speed", default=5)
     parser.add_argument("--algorithm", help="Algorithm to use, select from [DQN_discrete, Signal_based]", default="DQN_discrete")
@@ -26,6 +27,7 @@ signal.signal(signal.SIGINT, signal_handler)
 if __name__ == '__main__':
     parser = init_argparse()
     args = parser.parse_args()
+    print(args)
 
     exemplar = Dingnet_Exemplar(auto_start=True, debug=args.debug)
     exemplar.start_run([])
